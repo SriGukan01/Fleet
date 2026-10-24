@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --navy-primary: #0B192C;
+    --navy-secondary: #1E3E62;
+    --teal-primary: #0D9488;
+    --teal-accent: #14B8A6;
+    --teal-glow: rgba(20, 184, 166, 0.15);
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Glassmorphism & Custom Accents */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-panel-dark {
+  background: rgba(11, 25, 44, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(30, 62, 98, 0.6);
+}
+
+.teal-gradient {
+  background: linear-gradient(135deg, #0D9488 0%, #06B6D4 100%);
+}
+
+.navy-gradient {
+  background: linear-gradient(135deg, #0B192C 0%, #1E3E62 100%);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Bounding box animation for visual evidence */
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: rgba(13, 148, 136, 0.9);
+    box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.4);
+  }
+  50% {
+    border-color: rgba(20, 184, 166, 1);
+    box-shadow: 0 0 0 6px rgba(13, 148, 136, 0);
+  }
+}
+
+.bounding-box-active {
+  animation: pulse-border 2s infinite;
+}

@@ -1,0 +1,2672 @@
+{
+  "users": [
+    {
+      "_id": "user_demo_applicant",
+      "email": "applicant@veritrust.ai",
+      "name": "Aarav Sharma",
+      "role": "applicant",
+      "organization": "Delhi Technological University",
+      "hashed_password": "$2b$12$72IkSDJRmKS6MQfBf2O/2OoIQRnBj1lzcD1dj5fBjQuMFcm4pFBjK",
+      "is_active": true,
+      "is_demo": true,
+      "created_at": "2026-10-20T09:52:42.659762",
+      "updated_at": "2026-10-20T09:52:42.659762"
+    },
+    {
+      "_id": "user_demo_officer",
+      "email": "officer@veritrust.ai",
+      "name": "Dr. Priya Raman (Verification Officer)",
+      "role": "officer",
+      "organization": "AICTE Scrutiny Cell",
+      "hashed_password": "$2b$12$lTLZeY1qcYi28IAwP.s/FupbSRWGSAQbZm0MEe23MMW0kXKOYz5fW",
+      "is_active": true,
+      "is_demo": true,
+      "created_at": "2026-10-20T09:52:42.864556",
+      "updated_at": "2026-10-20T09:52:42.864556"
+    },
+    {
+      "_id": "user_demo_admin",
+      "email": "admin@veritrust.ai",
+      "name": "System Administrator",
+      "role": "admin",
+      "organization": "National Smart Automation Directorate",
+      "hashed_password": "$2b$12$T6b0r9HkGwJJobVulRusreR.TVMahGUgf120S5R0NlGcCSVLgHyD2",
+      "is_active": true,
+      "is_demo": true,
+      "created_at": "2026-10-20T09:52:43.070665",
+      "updated_at": "2026-10-20T09:52:43.070665"
+    }
+  ],
+  "compliance_rules": [
+    {
+      "_id": "rule_aicte_001",
+      "rule_id": "AICTE-MANDATORY-DOCS",
+      "name": "Mandatory Submission of Identity & Academic Records",
+      "jurisdiction": "AICTE / National",
+      "application_type": "all",
+      "policy_reference": {
+        "title": "AICTE Approval Process Handbook (Section 2.4 - Document Verification Norms)",
+        "authority": "All India Council for Technical Education (AICTE)",
+        "section_or_clause": "Clause 2.4.1 (Mandatory Scrutiny Requirements)",
+        "effective_date": "2024-04-01",
+        "source_url": "https://www.aicte-india.org/approval-process",
+        "excerpt": "Every candidate applying for scholarship or admission scrutiny must submit verified government identity proof along with qualifying degree/marksheet certificates."
+      },
+      "version": "1.0",
+      "severity": "critical",
+      "rule_type": "mandatory_documents",
+      "parameters": {
+        "required_document_types": [
+          "identity_document",
+          "academic_certificate"
+        ]
+      },
+      "explanation": "Validates that applicant has submitted at minimum an identity document and an academic certificate.",
+      "remediation_instructions": "Upload the missing mandatory document (Aadhaar/Identity card or Academic transcript).",
+      "is_active": true,
+      "created_at": "2026-10-20T09:52:43.072247",
+      "updated_at": "2026-10-20T09:52:43.072247"
+    },
+    {
+      "_id": "rule_aicte_002",
+      "rule_id": "INCOME-VALIDITY-PERIOD",
+      "name": "Income Certificate Current Financial Year Validity",
+      "jurisdiction": "Central / State Welfare Directorate",
+      "application_type": "scholarship",
+      "policy_reference": {
+        "title": "National Scholarship Portal (NSP) Operational Guidelines",
+        "authority": "Ministry of Electronics and Information Technology (MeitY)",
+        "section_or_clause": "Section 4(b) - Income Eligibility Criteria",
+        "effective_date": "2023-08-15",
+        "source_url": "https://scholarships.gov.in/guidelines",
+        "excerpt": "Income certificates submitted for fee waiver or scholarship must be issued within the valid financial year and cannot be expired at the time of application submission."
+      },
+      "version": "1.2",
+      "severity": "high",
+      "rule_type": "expiry_check",
+      "parameters": {
+        "target_document_type": "income_certificate",
+        "max_age_months": 12
+      },
+      "explanation": "Ensures income certificates reflect current financial eligibility and have not expired.",
+      "remediation_instructions": "Submit a renewed income certificate issued by a competent Revenue Authority (Tehsildar / SDO).",
+      "is_active": true,
+      "created_at": "2026-10-20T09:52:43.072633",
+      "updated_at": "2026-10-20T09:52:43.072633"
+    },
+    {
+      "_id": "rule_aicte_003",
+      "rule_id": "INCOME-THRESHOLD-CEILING",
+      "name": "Family Annual Income Ceiling Compliance",
+      "jurisdiction": "AICTE Pragati / Saksham Scheme",
+      "application_type": "scholarship",
+      "policy_reference": {
+        "title": "AICTE Pragati & Saksham Scholarship Guidelines",
+        "authority": "AICTE Welfare Bureau",
+        "section_or_clause": "Clause 3.1 - Income Ceiling",
+        "effective_date": "2023-01-01",
+        "source_url": "https://www.aicte-india.org/schemes/students-development-schemes",
+        "excerpt": "Total family annual income from all sources should not exceed INR 8,00,000/- per annum for the grant of scholarship."
+      },
+      "version": "1.0",
+      "severity": "high",
+      "rule_type": "threshold_constraint",
+      "parameters": {
+        "field": "annual_income",
+        "operator": "lte",
+        "threshold_value": 800000
+      },
+      "explanation": "Verifies that certified annual family income does not exceed \u20b98,00,000 threshold.",
+      "remediation_instructions": "If income exceeds the scheme cap, the applicant is ineligible for this specific income-restricted grant.",
+      "is_active": true,
+      "created_at": "2026-10-20T09:52:43.073060",
+      "updated_at": "2026-10-20T09:52:43.073060"
+    },
+    {
+      "_id": "rule_aicte_004",
+      "rule_id": "NAME-CONSISTENCY-CHECK",
+      "name": "Cross-Document Legal Identity Consistency",
+      "jurisdiction": "AICTE / Statutory Standard",
+      "application_type": "all",
+      "policy_reference": {
+        "title": "General Standards for Academic Credentials Scrutiny",
+        "authority": "AICTE & UGC Academic Cell",
+        "section_or_clause": "Section 5 - Identity Reconcilement",
+        "effective_date": "2023-06-01",
+        "source_url": "https://www.ugc.gov.in/guidelines",
+        "excerpt": "The name of the applicant on all academic credentials must be reconcilable with the primary identity record. Discrepancies without gazette notification require administrative hold."
+      },
+      "version": "1.1",
+      "severity": "high",
+      "rule_type": "cross_doc_consistency",
+      "parameters": {
+        "minimum_similarity": 0.8
+      },
+      "explanation": "Detects identity mismatches between official certificates and declared applicant credentials.",
+      "remediation_instructions": "Upload Gazette notification, marriage certificate, or an affidavit explaining the name variation.",
+      "is_active": true,
+      "created_at": "2026-10-20T09:52:43.073658",
+      "updated_at": "2026-10-20T09:52:43.073658"
+    },
+    {
+      "_id": "rule_aicte_005",
+      "rule_id": "MINIMUM-QUALIFYING-PERCENTAGE",
+      "name": "Minimum Qualifying Examination Percentage",
+      "jurisdiction": "AICTE Technical Education Norms",
+      "application_type": "admissions",
+      "policy_reference": {
+        "title": "AICTE Approval Process Handbook (Entry Qualification Standards)",
+        "authority": "AICTE Academic Board",
+        "section_or_clause": "Appendix 1 - Entry Level Percentages",
+        "effective_date": "2024-01-01",
+        "source_url": "https://www.aicte-india.org",
+        "excerpt": "Passed 10+2 examination with minimum 45% marks (40% for candidates belonging to reserved category) in the above subjects taken together."
+      },
+      "version": "1.0",
+      "severity": "medium",
+      "rule_type": "threshold_constraint",
+      "parameters": {
+        "field": "marks_percentage",
+        "operator": "gte",
+        "threshold_value": 45.0
+      },
+      "explanation": "Verifies that academic transcript confirms minimum entry threshold of 45%.",
+      "remediation_instructions": "Candidate must meet the minimum qualifying marks specified by the regulatory body.",
+      "is_active": true,
+      "created_at": "2026-10-20T09:52:43.074180",
+      "updated_at": "2026-10-20T09:52:43.074180"
+    }
+  ],
+  "issuer_registry": [
+    {
+      "_id": "issuer_digilocker",
+      "issuer_code": "UIDAI_DIGILOCKER",
+      "name": "DigiLocker / UIDAI Identity Gateway",
+      "category": "National Identity",
+      "api_endpoint": "https://api.digitallocker.gov.in/public/oauth2/1/xml/pull",
+      "status": "operational",
+      "is_sandbox": true,
+      "supported_doc_types": [
+        "identity_document"
+      ],
+      "created_at": "2026-10-20T09:52:43.074809",
+      "updated_at": "2026-10-20T09:52:43.074809"
+    },
+    {
+      "_id": "issuer_cbse",
+      "issuer_code": "CBSE_ACADEMIC_REGISTRY",
+      "name": "Central Board of Secondary Education (CBSE API)",
+      "category": "Secondary Education",
+      "api_endpoint": "https://cbse.nic.in/academic/records/verify",
+      "status": "operational",
+      "is_sandbox": true,
+      "supported_doc_types": [
+        "academic_certificate",
+        "marksheet_transcript"
+      ],
+      "created_at": "2026-10-20T09:52:43.075419",
+      "updated_at": "2026-10-20T09:52:43.075419"
+    },
+    {
+      "_id": "issuer_state_revenue",
+      "issuer_code": "STATE_REVENUE_DIRECTORATE",
+      "name": "State Revenue e-District Portal",
+      "category": "Revenue & Welfare",
+      "api_endpoint": "https://edistrict.gov.in/services/income/verify",
+      "status": "operational",
+      "is_sandbox": true,
+      "supported_doc_types": [
+        "income_certificate"
+      ],
+      "created_at": "2026-10-20T09:52:43.076043",
+      "updated_at": "2026-10-20T09:52:43.076043"
+    },
+    {
+      "_id": "issuer_cca_esign",
+      "issuer_code": "CCA_ESIGN_GATEWAY",
+      "name": "Controller of Certifying Authorities (CCA India)",
+      "category": "PKI & Digital Signatures",
+      "api_endpoint": "https://cca.gov.in/pki/ocsp",
+      "status": "degraded",
+      "is_sandbox": true,
+      "supported_doc_types": [
+        "all"
+      ],
+      "created_at": "2026-10-20T09:52:43.076680",
+      "updated_at": "2026-10-20T09:52:43.076680"
+    }
+  ],
+  "documents": [
+    {
+      "_id": "a7b73ff2-d181-4ccf-ba46-d4edb32e5f96",
+      "application_id": "3d8f9eb5-0ab2-4bc6-a46f-c16b9f77d253",
+      "document_type": "identity_document",
+      "metadata": {
+        "original_filename": "Government_Identity_Card_(Aadhaar).pdf",
+        "stored_filename": "identity_document_66dd7f.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\identity_document_66dd7f.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\a7b73ff2-d181-4ccf-ba46-d4edb32e5f96_page_1.png",
+        "file_size_bytes": 2538,
+        "mime_type": "application/pdf",
+        "sha256_hash": "ada03f8615d74a5e05f6e9992bb3c81a18eb3727b96a712d947116dc5435f2cd",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:52.235169",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 39.85,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "dob": {
+          "field_key": "dob",
+          "display_name": "Date of Birth",
+          "value": "14/08/2003",
+          "normalized_value": "2003-08-14",
+          "confidence": 0.94,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 19.35,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Birth:\n14/08/2003",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Aadhaar Number",
+          "value": "5482 9104 3821",
+          "normalized_value": "548291043821",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 16.07,
+            "width": 41.22,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "5482 9104 3821",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issue_date": {
+          "field_key": "issue_date",
+          "display_name": "Issue Date",
+          "value": "12/01/2021",
+          "normalized_value": "2021-01-12",
+          "confidence": 0.91,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 25.92,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Issued On:\n12/01/2021",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:52.235267",
+      "updated_at": "2026-10-20T09:53:52.235272"
+    },
+    {
+      "_id": "29cb6bd0-6cbb-4281-b9c4-87ca9f898119",
+      "application_id": "3d8f9eb5-0ab2-4bc6-a46f-c16b9f77d253",
+      "document_type": "academic_certificate",
+      "metadata": {
+        "original_filename": "Degree_Certificate_of_Engineering.pdf",
+        "stored_filename": "academic_certificate_94bfc2.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\academic_certificate_94bfc2.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\29cb6bd0-6cbb-4281-b9c4-87ca9f898119_page_1.png",
+        "file_size_bytes": 2617,
+        "mime_type": "application/pdf",
+        "sha256_hash": "4405fdbcdc753154b5a4f81303099e10722c3fd1ad30e6308291ea9de5d6e8ca",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:52.430604",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 39.85,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issuing_authority": {
+          "field_key": "issuing_authority",
+          "display_name": "Issuing Authority / Institution",
+          "value": "University\nRegistration Number",
+          "normalized_value": "UNIVERSITY\nREGISTRATION NUMBER",
+          "confidence": 0.92,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 15.0,
+            "y": 20.0,
+            "width": 40.0,
+            "height": 6.0
+          },
+          "extraction_method": "institutional_entity_model",
+          "raw_snippet": "University\nRegistration Number",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issue_date": {
+          "field_key": "issue_date",
+          "display_name": "Issue Date",
+          "value": "20/06/2024",
+          "normalized_value": "2024-06-20",
+          "confidence": 0.91,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 32.48,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Issue:\n20/06/2024",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:52.430655",
+      "updated_at": "2026-10-20T09:53:52.430660"
+    },
+    {
+      "_id": "b490206c-0250-4e7a-948a-47a6bd28ae25",
+      "application_id": "3d8f9eb5-0ab2-4bc6-a46f-c16b9f77d253",
+      "document_type": "income_certificate",
+      "metadata": {
+        "original_filename": "Annual_Family_Income_Certificate.pdf",
+        "stored_filename": "income_certificate_1b3d27.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\income_certificate_1b3d27.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\b490206c-0250-4e7a-948a-47a6bd28ae25_page_1.png",
+        "file_size_bytes": 2579,
+        "mime_type": "application/pdf",
+        "sha256_hash": "c8f927c507f2d604e392fd39b08255071fb2abac913fd4941fc547445d32deb7",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:52.622470",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Aarav Sharma\nAnnual Family Income",
+          "normalized_value": "AARAV SHARMA ANNUAL FAMILY INCOME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 15.0,
+            "y": 20.0,
+            "width": 40.0,
+            "height": 6.0
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Aarav Sharma\nAnnual Family Income",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Document / Registration ID",
+          "value": "REV/INC/2024/9842",
+          "normalized_value": "REV/INC/2024/9842",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 19.35,
+            "width": 44.22,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "Certificate No:\nREV/INC/2024/9842",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issue_date": {
+          "field_key": "issue_date",
+          "display_name": "Issue Date",
+          "value": "10/05/2024",
+          "normalized_value": "2024-05-10",
+          "confidence": 0.91,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 22.63,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date:\n10/05/2024",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "expiry_date": {
+          "field_key": "expiry_date",
+          "display_name": "Validity / Expiry Date",
+          "value": "2027-03-31\nIssu",
+          "normalized_value": "2027-03-31",
+          "confidence": 0.9,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 15.0,
+            "y": 20.0,
+            "width": 40.0,
+            "height": 6.0
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Valid Up To:\n2027-03-31\nIssu",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:52.622539",
+      "updated_at": "2026-10-20T09:53:52.622547"
+    },
+    {
+      "_id": "c34fe089-4b8a-475f-be33-f4394aeac5c6",
+      "application_id": "90bb1056-0124-4215-9ea5-55db571f35c3",
+      "document_type": "identity_document",
+      "metadata": {
+        "original_filename": "Government_Identity_Card_(Aadhaar).pdf",
+        "stored_filename": "identity_document_cb650b.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\identity_document_cb650b.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\c34fe089-4b8a-475f-be33-f4394aeac5c6_page_1.png",
+        "file_size_bytes": 2467,
+        "mime_type": "application/pdf",
+        "sha256_hash": "e987e34752cec1742a32f8bbd9753ec0c8dc6eaacc43763a800687ce4f631c63",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:53.198641",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 42.49,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "dob": {
+          "field_key": "dob",
+          "display_name": "Date of Birth",
+          "value": "22/11/2004",
+          "normalized_value": "2004-11-22",
+          "confidence": 0.94,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 19.35,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Birth:\n22/11/2004",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Aadhaar Number",
+          "value": "4829 1102 7731",
+          "normalized_value": "482911027731",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 16.07,
+            "width": 41.22,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "4829 1102 7731",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issue_date": {
+          "field_key": "issue_date",
+          "display_name": "Issue Date",
+          "value": "05/03/2022",
+          "normalized_value": "2022-03-05",
+          "confidence": 0.91,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 22.63,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Issued On:\n05/03/2022",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:53.198692",
+      "updated_at": "2026-10-20T09:53:53.198697"
+    },
+    {
+      "_id": "16bef8f4-d514-4a90-bee5-d888fbc4f0d4",
+      "application_id": "4a8479a4-c2ee-4370-abbb-0074f56028be",
+      "document_type": "identity_document",
+      "metadata": {
+        "original_filename": "Government_Identity_Card_(Aadhaar).pdf",
+        "stored_filename": "identity_document_3f28ea.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\identity_document_3f28ea.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\16bef8f4-d514-4a90-bee5-d888fbc4f0d4_page_1.png",
+        "file_size_bytes": 2432,
+        "mime_type": "application/pdf",
+        "sha256_hash": "f857076e96add4997959aabea82106e48043ee2fd8367be1c5b93981f38aafcd",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:53.517740",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 42.21,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "dob": {
+          "field_key": "dob",
+          "display_name": "Date of Birth",
+          "value": "18/05/2002",
+          "normalized_value": "2002-05-18",
+          "confidence": 0.94,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 19.35,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Birth:\n18/05/2002",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Aadhaar Number",
+          "value": "7719 3340 1289",
+          "normalized_value": "771933401289",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 16.07,
+            "width": 41.22,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "7719 3340 1289",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:53.517815",
+      "updated_at": "2026-10-20T09:53:53.517821"
+    },
+    {
+      "_id": "4ee3eca5-52e5-46ff-8857-8b2ad4dee5da",
+      "application_id": "4a8479a4-c2ee-4370-abbb-0074f56028be",
+      "document_type": "academic_certificate",
+      "metadata": {
+        "original_filename": "Degree_Certificate_of_Science.pdf",
+        "stored_filename": "academic_certificate_6e9aa1.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\academic_certificate_6e9aa1.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\4ee3eca5-52e5-46ff-8857-8b2ad4dee5da_page_1.png",
+        "file_size_bytes": 2513,
+        "mime_type": "application/pdf",
+        "sha256_hash": "234fb8eb43aaa563349ea2f204fc315a50640ae672eebf3db0d9e6353425ca74",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:53.718784",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 46.57,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "dob": {
+          "field_key": "dob",
+          "display_name": "Date of Birth",
+          "value": "12/09/2000",
+          "normalized_value": "2000-09-12",
+          "confidence": 0.94,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 16.07,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Birth:\n12/09/2000",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issuing_authority": {
+          "field_key": "issuing_authority",
+          "display_name": "Issuing Authority / Institution",
+          "value": "University\nRegistration Number",
+          "normalized_value": "UNIVERSITY\nREGISTRATION NUMBER",
+          "confidence": 0.92,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 15.0,
+            "y": 20.0,
+            "width": 40.0,
+            "height": 6.0
+          },
+          "extraction_method": "institutional_entity_model",
+          "raw_snippet": "University\nRegistration Number",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:53.718834",
+      "updated_at": "2026-10-20T09:53:53.718839"
+    },
+    {
+      "_id": "6629bf39-87e9-435d-8eac-d00851c07c24",
+      "application_id": "907c1427-fdd4-4d91-888e-333f55a437ad",
+      "document_type": "identity_document",
+      "metadata": {
+        "original_filename": "Government_Identity_Card.pdf",
+        "stored_filename": "identity_document_fbc668.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\identity_document_fbc668.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\6629bf39-87e9-435d-8eac-d00851c07c24_page_1.png",
+        "file_size_bytes": 2414,
+        "mime_type": "application/pdf",
+        "sha256_hash": "f57c518c9505a814123253d2b6cfa3ea0be4ee2424d2ffc90f685a06a12e7af4",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:54.169311",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 38.31,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "dob": {
+          "field_key": "dob",
+          "display_name": "Date of Birth",
+          "value": "09/02/2003",
+          "normalized_value": "2003-02-09",
+          "confidence": 0.94,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 19.35,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Birth:\n09/02/2003",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Aadhaar Number",
+          "value": "9921 4432 1098",
+          "normalized_value": "992144321098",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 16.07,
+            "width": 41.22,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "9921 4432 1098",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:54.169360",
+      "updated_at": "2026-10-20T09:53:54.169365"
+    },
+    {
+      "_id": "cfb8568d-90e5-4911-ae87-2da68ad305b5",
+      "application_id": "907c1427-fdd4-4d91-888e-333f55a437ad",
+      "document_type": "academic_certificate",
+      "metadata": {
+        "original_filename": "Senior_School_Certificate_Examination.pdf",
+        "stored_filename": "academic_certificate_faca05.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\academic_certificate_faca05.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\cfb8568d-90e5-4911-ae87-2da68ad305b5_page_1.png",
+        "file_size_bytes": 2447,
+        "mime_type": "application/pdf",
+        "sha256_hash": "2b0b66f2b954ceec15f33305453756107ddc4614bd25350cc280c7a3a5b9ca81",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:54.383676",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 38.31,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Document / Registration ID",
+          "value": "1284920",
+          "normalized_value": "1284920",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 16.07,
+            "width": 35.77,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "Roll No:\n1284920",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issuing_authority": {
+          "field_key": "issuing_authority",
+          "display_name": "Issuing Authority / Institution",
+          "value": "Board of Secondary Education\nMarks Percentage",
+          "normalized_value": "BOARD OF SECONDARY EDUCATION\nMARKS PERCENTAGE",
+          "confidence": 0.92,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 15.0,
+            "y": 20.0,
+            "width": 40.0,
+            "height": 6.0
+          },
+          "extraction_method": "institutional_entity_model",
+          "raw_snippet": "Board of Secondary Education\nMarks Percentage",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "marks_percentage": {
+          "field_key": "marks_percentage",
+          "display_name": "Marks / Percentage / CGPA",
+          "value": "91.2%",
+          "normalized_value": "91.2",
+          "confidence": 0.93,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 22.63,
+            "width": 34.04,
+            "height": 1.74
+          },
+          "extraction_method": "score_regex_matcher",
+          "raw_snippet": "Percentage:\n91.2%",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:54.383751",
+      "updated_at": "2026-10-20T09:53:54.383759"
+    },
+    {
+      "_id": "afbcc4f3-ba8c-4696-817a-4bc0dd929550",
+      "application_id": "907c1427-fdd4-4d91-888e-333f55a437ad",
+      "document_type": "income_certificate",
+      "metadata": {
+        "original_filename": "Annual_Family_Income_Certificate.pdf",
+        "stored_filename": "income_certificate_ff09fe.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\income_certificate_ff09fe.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\afbcc4f3-ba8c-4696-817a-4bc0dd929550_page_1.png",
+        "file_size_bytes": 2548,
+        "mime_type": "application/pdf",
+        "sha256_hash": "f2f7399fd198b6d82f548bc4d0049534919743a38cd7c05d83174955686c80b8",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:54.582292",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Ananya Sen\nAnnual Family Income",
+          "normalized_value": "ANANYA SEN ANNUAL FAMILY INCOME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 15.0,
+            "y": 20.0,
+            "width": 40.0,
+            "height": 6.0
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Ananya Sen\nAnnual Family Income",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Document / Registration ID",
+          "value": "REV/2021/EXP-88",
+          "normalized_value": "REV/2021/EXP-88",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 19.35,
+            "width": 42.94,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "Certificate No:\nREV/2021/EXP-88",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issue_date": {
+          "field_key": "issue_date",
+          "display_name": "Issue Date",
+          "value": "15/01/2021",
+          "normalized_value": "2021-01-15",
+          "confidence": 0.91,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 22.63,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date:\n15/01/2021",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "expiry_date": {
+          "field_key": "expiry_date",
+          "display_name": "Validity / Expiry Date",
+          "value": "2023-03-31\nIssu",
+          "normalized_value": "2023-03-31",
+          "confidence": 0.9,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 15.0,
+            "y": 20.0,
+            "width": 40.0,
+            "height": 6.0
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Expires On:\n2023-03-31\nIssu",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:54.582343",
+      "updated_at": "2026-10-20T09:53:54.582348"
+    },
+    {
+      "_id": "0f4796c8-b7ae-4868-825b-ef67f657bce9",
+      "application_id": "6bcffc26-b89b-488e-9861-7586d6f202b8",
+      "document_type": "identity_document",
+      "metadata": {
+        "original_filename": "Government_Identity_Card.pdf",
+        "stored_filename": "identity_document_718572.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\identity_document_718572.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\0f4796c8-b7ae-4868-825b-ef67f657bce9_page_1.png",
+        "file_size_bytes": 2419,
+        "mime_type": "application/pdf",
+        "sha256_hash": "37e3529cd9c1f6abc9bff3f4ffd5ea01f5d979270c5c89ed400e97933ec20908",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:55.153233",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 38.22,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "dob": {
+          "field_key": "dob",
+          "display_name": "Date of Birth",
+          "value": "11/04/1998",
+          "normalized_value": "1998-04-11",
+          "confidence": 0.94,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 19.35,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Birth:\n11/04/1998",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Aadhaar Number",
+          "value": "3341 8892 0019",
+          "normalized_value": "334188920019",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 16.07,
+            "width": 41.22,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "3341 8892 0019",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:55.153317",
+      "updated_at": "2026-10-20T09:53:55.153325"
+    },
+    {
+      "_id": "01d49c3a-7280-4209-9f1d-a53d748b43d3",
+      "application_id": "6bcffc26-b89b-488e-9861-7586d6f202b8",
+      "document_type": "academic_certificate",
+      "metadata": {
+        "original_filename": "Master_of_Technology_Certificate.pdf",
+        "stored_filename": "academic_certificate_2a8f9b.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\academic_certificate_2a8f9b.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\01d49c3a-7280-4209-9f1d-a53d748b43d3_page_1.png",
+        "file_size_bytes": 2512,
+        "mime_type": "application/pdf",
+        "sha256_hash": "d87e18ea3f91fbbb264547fc1cf0f95da2ebaf243bfe7805d0bec029f150d7d2",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:55.348945",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 38.22,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issuing_authority": {
+          "field_key": "issuing_authority",
+          "display_name": "Issuing Authority / Institution",
+          "value": "Institute of Technology\nMarks Percentage",
+          "normalized_value": "INSTITUTE OF TECHNOLOGY\nMARKS PERCENTAGE",
+          "confidence": 0.92,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 15.0,
+            "y": 20.0,
+            "width": 40.0,
+            "height": 6.0
+          },
+          "extraction_method": "institutional_entity_model",
+          "raw_snippet": "Institute of Technology\nMarks Percentage",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issue_date": {
+          "field_key": "issue_date",
+          "display_name": "Issue Date",
+          "value": "15/08/2023",
+          "normalized_value": "2023-08-15",
+          "confidence": 0.91,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 25.92,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Issue:\n15/08/2023",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "marks_percentage": {
+          "field_key": "marks_percentage",
+          "display_name": "Marks / Percentage / CGPA",
+          "value": "98.5%",
+          "normalized_value": "98.5",
+          "confidence": 0.93,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 22.63,
+            "width": 34.04,
+            "height": 1.74
+          },
+          "extraction_method": "score_regex_matcher",
+          "raw_snippet": "Percentage:\n98.5%",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:55.348998",
+      "updated_at": "2026-10-20T09:53:55.349003"
+    },
+    {
+      "_id": "53e20c08-f63a-46c7-91c9-5d7a1810d162",
+      "application_id": "d3ffa946-f001-4a15-8b0a-a81e9032bf5c",
+      "document_type": "identity_document",
+      "metadata": {
+        "original_filename": "Government_Identity_Card.pdf",
+        "stored_filename": "identity_document_dfdfae.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\identity_document_dfdfae.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\53e20c08-f63a-46c7-91c9-5d7a1810d162_page_1.png",
+        "file_size_bytes": 2417,
+        "mime_type": "application/pdf",
+        "sha256_hash": "283aa2811d74abc561441ca463208defbb50ff915958e6e35bcd7a7d7a77be48",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:55.806641",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 39.13,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "dob": {
+          "field_key": "dob",
+          "display_name": "Date of Birth",
+          "value": "01/07/2001",
+          "normalized_value": "2001-07-01",
+          "confidence": 0.94,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 19.35,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Birth:\n01/07/2001",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "document_number": {
+          "field_key": "document_number",
+          "display_name": "Aadhaar Number",
+          "value": "6643 2210 9981",
+          "normalized_value": "664322109981",
+          "confidence": 0.95,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 16.07,
+            "width": 41.22,
+            "height": 1.74
+          },
+          "extraction_method": "pattern_identifier_matching",
+          "raw_snippet": "6643 2210 9981",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:55.806715",
+      "updated_at": "2026-10-20T09:53:55.806723"
+    },
+    {
+      "_id": "a64577e9-ccae-4da6-808c-23c3574ab571",
+      "application_id": "d3ffa946-f001-4a15-8b0a-a81e9032bf5c",
+      "document_type": "registration_certificate",
+      "metadata": {
+        "original_filename": "State_Council_Professional_License.pdf",
+        "stored_filename": "registration_certificate_494ec0.pdf",
+        "file_path": "D:\\Hackathon\\SIH\\backend\\storage\\uploads\\registration_certificate_494ec0.pdf",
+        "preview_path": "D:\\Hackathon\\SIH\\backend\\storage\\previews\\a64577e9-ccae-4da6-808c-23c3574ab571_page_1.png",
+        "file_size_bytes": 2464,
+        "mime_type": "application/pdf",
+        "sha256_hash": "29ab325f3ccbbc488cb0617b242145abbd538436bb54cbc7c14d8ec68f2a5179",
+        "page_count": 1,
+        "upload_timestamp": "2026-10-20T09:53:56.008338",
+        "version": 1
+      },
+      "status": "analyzed",
+      "ocr_confidence_score": 0.96,
+      "quality_score": 95.0,
+      "extracted_fields": {
+        "applicant_name": {
+          "field_key": "applicant_name",
+          "display_name": "Applicant Name",
+          "value": "Name",
+          "normalized_value": "NAME",
+          "confidence": 0.96,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 12.78,
+            "width": 39.13,
+            "height": 1.74
+          },
+          "extraction_method": "layout_entity_matching",
+          "raw_snippet": "Name",
+          "is_verified": true,
+          "validation_status": "valid"
+        },
+        "issue_date": {
+          "field_key": "issue_date",
+          "display_name": "Issue Date",
+          "value": "04/01/2024",
+          "normalized_value": "2024-01-04",
+          "confidence": 0.91,
+          "page_number": 1,
+          "bounding_box": {
+            "x": 10.13,
+            "y": 22.63,
+            "width": 37.59,
+            "height": 1.74
+          },
+          "extraction_method": "date_regex_parser",
+          "raw_snippet": "Date of Issue:\n04/01/2024",
+          "is_verified": true,
+          "validation_status": "valid"
+        }
+      },
+      "authenticity_findings": [],
+      "digital_signature_info": {
+        "has_digital_signature": false,
+        "status": "no_signature_present",
+        "signatures_count": 0,
+        "message": "No embedded PDF digital signature found. Document relies on physical seal/sign or automated institutional ingestion."
+      },
+      "created_at": "2026-10-20T09:53:56.008386",
+      "updated_at": "2026-10-20T09:53:56.008393"
+    }
+  ],
+  "applications": [
+    {
+      "_id": "3d8f9eb5-0ab2-4bc6-a46f-c16b9f77d253",
+      "reference_id": "APP-2026-CLEAN-01",
+      "applicant_name": "Aarav Sharma",
+      "applicant_email": "aarav.sharma@example.edu",
+      "applicant_phone": "+91 98765 43210",
+      "category": "scholarship",
+      "organization_or_institution": "AICTE Pragati Scheme",
+      "declared_details": {
+        "applicant_name": "Aarav Sharma",
+        "email": "aarav.sharma@example.edu",
+        "category": "scholarship"
+      },
+      "notes": "Scenario 1: Clean Application. All records consistent, rules satisfied, low review priority.",
+      "status": "approved",
+      "created_by": "user_demo_applicant",
+      "document_ids": [
+        "a7b73ff2-d181-4ccf-ba46-d4edb32e5f96",
+        "29cb6bd0-6cbb-4281-b9c4-87ca9f898119",
+        "b490206c-0250-4e7a-948a-47a6bd28ae25"
+      ],
+      "review_priority_score": 40,
+      "review_priority_level": "moderate_concern",
+      "verification_summary": {
+        "cross_document": {
+          "application_id": "3d8f9eb5-0ab2-4bc6-a46f-c16b9f77d253",
+          "total_checks": 6,
+          "passed_checks": 1,
+          "fuzzy_matches": 0,
+          "mismatches": 5,
+          "contradictions": 5,
+          "comparisons": [
+            {
+              "id": "216f5f0a-aa4f-473a-a8d5-7bf1a3175d92",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Aarav Sharma",
+              "doc2_id": "a7b73ff2-d181-4ccf-ba46-d4edb32e5f96",
+              "doc2_name": "Government_Identity_Card_(Aadhaar).pdf",
+              "doc2_type": "identity_document",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.25,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "61a5523c-6798-4830-b48a-89251110480d",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Aarav Sharma",
+              "doc2_id": "29cb6bd0-6cbb-4281-b9c4-87ca9f898119",
+              "doc2_name": "Degree_Certificate_of_Engineering.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.25,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "adf568cb-18a9-40ed-b15f-86f509ef894f",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Aarav Sharma",
+              "doc2_id": "b490206c-0250-4e7a-948a-47a6bd28ae25",
+              "doc2_name": "Annual_Family_Income_Certificate.pdf",
+              "doc2_type": "income_certificate",
+              "doc2_value": "Aarav Sharma\nAnnual Family Income",
+              "match_status": "mismatch",
+              "similarity_score": 0.53,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "4b633f31-0bd2-4c97-b13b-692f812203cb",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Government_Identity_Card_(Aadhaar).pdf vs Degree_Certificate_of_Engineering.pdf)",
+              "doc1_id": "a7b73ff2-d181-4ccf-ba46-d4edb32e5f96",
+              "doc1_name": "Government_Identity_Card_(Aadhaar).pdf",
+              "doc1_type": "identity_document",
+              "doc1_value": "Name",
+              "doc2_id": "29cb6bd0-6cbb-4281-b9c4-87ca9f898119",
+              "doc2_name": "Degree_Certificate_of_Engineering.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "Name",
+              "match_status": "exact_match",
+              "similarity_score": 1.0,
+              "contradiction_flag": false,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Names agree between documents.",
+              "reviewed": false
+            },
+            {
+              "id": "22658671-e5a6-421f-92b1-476fd8ca01c1",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Government_Identity_Card_(Aadhaar).pdf vs Annual_Family_Income_Certificate.pdf)",
+              "doc1_id": "a7b73ff2-d181-4ccf-ba46-d4edb32e5f96",
+              "doc1_name": "Government_Identity_Card_(Aadhaar).pdf",
+              "doc1_type": "identity_document",
+              "doc1_value": "Name",
+              "doc2_id": "b490206c-0250-4e7a-948a-47a6bd28ae25",
+              "doc2_name": "Annual_Family_Income_Certificate.pdf",
+              "doc2_type": "income_certificate",
+              "doc2_value": "Aarav Sharma\nAnnual Family Income",
+              "match_status": "mismatch",
+              "similarity_score": 0.22,
+              "contradiction_flag": true,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Mismatch: 'Name' in Government_Identity_Card_(Aadhaar).pdf vs 'Aarav Sharma\nAnnual Family Income' in Annual_Family_Income_Certificate.pdf. Request clarifying identity affidavit.",
+              "reviewed": false
+            },
+            {
+              "id": "285cb350-27b9-41a4-b5af-ac048cc35682",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Degree_Certificate_of_Engineering.pdf vs Annual_Family_Income_Certificate.pdf)",
+              "doc1_id": "29cb6bd0-6cbb-4281-b9c4-87ca9f898119",
+              "doc1_name": "Degree_Certificate_of_Engineering.pdf",
+              "doc1_type": "academic_certificate",
+              "doc1_value": "Name",
+              "doc2_id": "b490206c-0250-4e7a-948a-47a6bd28ae25",
+              "doc2_name": "Annual_Family_Income_Certificate.pdf",
+              "doc2_type": "income_certificate",
+              "doc2_value": "Aarav Sharma\nAnnual Family Income",
+              "match_status": "mismatch",
+              "similarity_score": 0.22,
+              "contradiction_flag": true,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Mismatch: 'Name' in Degree_Certificate_of_Engineering.pdf vs 'Aarav Sharma\nAnnual Family Income' in Annual_Family_Income_Certificate.pdf. Request clarifying identity affidavit.",
+              "reviewed": false
+            }
+          ],
+          "overall_status": "severe_mismatch"
+        },
+        "compliance": {
+          "application_id": "3d8f9eb5-0ab2-4bc6-a46f-c16b9f77d253",
+          "total_rules": 4,
+          "compliant_count": 2,
+          "non_compliant_count": 1,
+          "missing_evidence_count": 0,
+          "manual_review_count": 0,
+          "overall_compliance_rate": 50.0,
+          "results": [
+            {
+              "rule_id": "AICTE-MANDATORY-DOCS",
+              "rule_name": "Mandatory Submission of Identity & Academic Records",
+              "status": "compliant",
+              "severity": "critical",
+              "policy_reference": {
+                "title": "AICTE Approval Process Handbook (Section 2.4 - Document Verification Norms)",
+                "authority": "All India Council for Technical Education (AICTE)",
+                "section_or_clause": "Clause 2.4.1 (Mandatory Scrutiny Requirements)",
+                "effective_date": "2024-04-01",
+                "source_url": "https://www.aicte-india.org/approval-process",
+                "excerpt": "Every candidate applying for scholarship or admission scrutiny must submit verified government identity proof along with qualifying degree/marksheet certificates."
+              },
+              "evidence_found": "All mandatory documents present: identity_document, academic_certificate",
+              "explanation": "All mandatory document categories have been uploaded and ingested.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "INCOME-VALIDITY-PERIOD",
+              "rule_name": "Income Certificate Current Financial Year Validity",
+              "status": "compliant",
+              "severity": "high",
+              "policy_reference": {
+                "title": "National Scholarship Portal (NSP) Operational Guidelines",
+                "authority": "Ministry of Electronics and Information Technology (MeitY)",
+                "section_or_clause": "Section 4(b) - Income Eligibility Criteria",
+                "effective_date": "2023-08-15",
+                "source_url": "https://scholarships.gov.in/guidelines",
+                "excerpt": "Income certificates submitted for fee waiver or scholarship must be issued within the valid financial year and cannot be expired at the time of application submission."
+              },
+              "evidence_found": "Validity Date 2027-03-31 is active.",
+              "explanation": "Certificate is within active validity window.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "INCOME-THRESHOLD-CEILING",
+              "rule_name": "Family Annual Income Ceiling Compliance",
+              "status": "not_applicable",
+              "severity": "high",
+              "policy_reference": {
+                "title": "AICTE Pragati & Saksham Scholarship Guidelines",
+                "authority": "AICTE Welfare Bureau",
+                "section_or_clause": "Clause 3.1 - Income Ceiling",
+                "effective_date": "2023-01-01",
+                "source_url": "https://www.aicte-india.org/schemes/students-development-schemes",
+                "excerpt": "Total family annual income from all sources should not exceed INR 8,00,000/- per annum for the grant of scholarship."
+              },
+              "evidence_found": "Field annual_income not present in extracted records.",
+              "explanation": "Threshold evaluation not applicable.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "NAME-CONSISTENCY-CHECK",
+              "rule_name": "Cross-Document Legal Identity Consistency",
+              "status": "conflicting_evidence",
+              "severity": "high",
+              "policy_reference": {
+                "title": "General Standards for Academic Credentials Scrutiny",
+                "authority": "AICTE & UGC Academic Cell",
+                "section_or_clause": "Section 5 - Identity Reconcilement",
+                "effective_date": "2023-06-01",
+                "source_url": "https://www.ugc.gov.in/guidelines",
+                "excerpt": "The name of the applicant on all academic credentials must be reconcilable with the primary identity record. Discrepancies without gazette notification require administrative hold."
+              },
+              "evidence_found": "5 critical cross-document contradiction(s) detected.",
+              "explanation": "Extracted applicant credentials diverge across uploaded certificates.",
+              "remediation_instructions": "Upload Gazette notification, marriage certificate, or an affidavit explaining the name variation.",
+              "reviewed": false
+            }
+          ]
+        },
+        "risk_assessment": {
+          "application_id": "3d8f9eb5-0ab2-4bc6-a46f-c16b9f77d253",
+          "priority_score": 40,
+          "priority_level": "moderate_concern",
+          "recommended_queue": "Standard Verification Officer Queue",
+          "signals": [
+            {
+              "category": "cross_doc_contradiction",
+              "title": "Cross-Document Discrepancy Detected",
+              "weight": 35.0,
+              "contribution_points": 40,
+              "evidence": "5 critical field contradiction(s) between uploaded records.",
+              "explanation": "Information declared by applicant or extracted from primary ID differs significantly from supporting academic certificates."
+            }
+          ],
+          "deterministic_violations_count": 5,
+          "probabilistic_anomalies_count": 0,
+          "model_version": "v2.1-hybrid-explainable-weights",
+          "disclaimer": "This score indicates review urgency and routing priority. It is not an automated conclusion or legal probability of fraud."
+        }
+      },
+      "review_decision": {
+        "action": "approved",
+        "reason": "All mandatory credentials verified against statutory guidelines with zero contradictions.",
+        "notes": "Verified by automated rule clearance and affirmative officer sign-off.",
+        "decided_at": "2026-10-20T09:53:53.000285"
+      },
+      "created_at": "2026-10-20T09:53:53.000504",
+      "updated_at": "2026-10-20T09:53:53.000512"
+    },
+    {
+      "_id": "90bb1056-0124-4215-9ea5-55db571f35c3",
+      "reference_id": "APP-2026-MISSING-02",
+      "applicant_name": "Rohan Deshmukh",
+      "applicant_email": "rohan.d@example.edu",
+      "applicant_phone": "+91 98765 43210",
+      "category": "scholarship",
+      "organization_or_institution": "National Means-cum-Merit Scholarship",
+      "declared_details": {
+        "applicant_name": "Rohan Deshmukh",
+        "email": "rohan.d@example.edu",
+        "category": "scholarship"
+      },
+      "notes": "Scenario 2: Missing Document. Mandatory Academic Certificate absent from intake submission.",
+      "status": "needs_evidence",
+      "created_by": "user_demo_applicant",
+      "document_ids": [
+        "c34fe089-4b8a-475f-be33-f4394aeac5c6"
+      ],
+      "review_priority_score": 55,
+      "review_priority_level": "high_concern",
+      "verification_summary": {
+        "cross_document": {
+          "application_id": "90bb1056-0124-4215-9ea5-55db571f35c3",
+          "total_checks": 1,
+          "passed_checks": 0,
+          "fuzzy_matches": 0,
+          "mismatches": 1,
+          "contradictions": 1,
+          "comparisons": [
+            {
+              "id": "a0a2417f-bff1-404c-a4b4-df46ee7399f7",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Rohan Deshmukh",
+              "doc2_id": "c34fe089-4b8a-475f-be33-f4394aeac5c6",
+              "doc2_name": "Government_Identity_Card_(Aadhaar).pdf",
+              "doc2_type": "identity_document",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.22,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            }
+          ],
+          "overall_status": "severe_mismatch"
+        },
+        "compliance": {
+          "application_id": "90bb1056-0124-4215-9ea5-55db571f35c3",
+          "total_rules": 4,
+          "compliant_count": 0,
+          "non_compliant_count": 1,
+          "missing_evidence_count": 1,
+          "manual_review_count": 0,
+          "overall_compliance_rate": 0.0,
+          "results": [
+            {
+              "rule_id": "AICTE-MANDATORY-DOCS",
+              "rule_name": "Mandatory Submission of Identity & Academic Records",
+              "status": "missing_evidence",
+              "severity": "critical",
+              "policy_reference": {
+                "title": "AICTE Approval Process Handbook (Section 2.4 - Document Verification Norms)",
+                "authority": "All India Council for Technical Education (AICTE)",
+                "section_or_clause": "Clause 2.4.1 (Mandatory Scrutiny Requirements)",
+                "effective_date": "2024-04-01",
+                "source_url": "https://www.aicte-india.org/approval-process",
+                "excerpt": "Every candidate applying for scholarship or admission scrutiny must submit verified government identity proof along with qualifying degree/marksheet certificates."
+              },
+              "evidence_found": "Missing required documents: academic_certificate",
+              "explanation": "Application lacks required document type(s): academic_certificate.",
+              "remediation_instructions": "Upload the missing mandatory document (Aadhaar/Identity card or Academic transcript).",
+              "reviewed": false
+            },
+            {
+              "rule_id": "INCOME-VALIDITY-PERIOD",
+              "rule_name": "Income Certificate Current Financial Year Validity",
+              "status": "not_applicable",
+              "severity": "high",
+              "policy_reference": {
+                "title": "National Scholarship Portal (NSP) Operational Guidelines",
+                "authority": "Ministry of Electronics and Information Technology (MeitY)",
+                "section_or_clause": "Section 4(b) - Income Eligibility Criteria",
+                "effective_date": "2023-08-15",
+                "source_url": "https://scholarships.gov.in/guidelines",
+                "excerpt": "Income certificates submitted for fee waiver or scholarship must be issued within the valid financial year and cannot be expired at the time of application submission."
+              },
+              "evidence_found": "Document 'income_certificate' not submitted for this application.",
+              "explanation": "Rule not applicable as target document was not uploaded.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "INCOME-THRESHOLD-CEILING",
+              "rule_name": "Family Annual Income Ceiling Compliance",
+              "status": "not_applicable",
+              "severity": "high",
+              "policy_reference": {
+                "title": "AICTE Pragati & Saksham Scholarship Guidelines",
+                "authority": "AICTE Welfare Bureau",
+                "section_or_clause": "Clause 3.1 - Income Ceiling",
+                "effective_date": "2023-01-01",
+                "source_url": "https://www.aicte-india.org/schemes/students-development-schemes",
+                "excerpt": "Total family annual income from all sources should not exceed INR 8,00,000/- per annum for the grant of scholarship."
+              },
+              "evidence_found": "Field annual_income not present in extracted records.",
+              "explanation": "Threshold evaluation not applicable.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "NAME-CONSISTENCY-CHECK",
+              "rule_name": "Cross-Document Legal Identity Consistency",
+              "status": "conflicting_evidence",
+              "severity": "high",
+              "policy_reference": {
+                "title": "General Standards for Academic Credentials Scrutiny",
+                "authority": "AICTE & UGC Academic Cell",
+                "section_or_clause": "Section 5 - Identity Reconcilement",
+                "effective_date": "2023-06-01",
+                "source_url": "https://www.ugc.gov.in/guidelines",
+                "excerpt": "The name of the applicant on all academic credentials must be reconcilable with the primary identity record. Discrepancies without gazette notification require administrative hold."
+              },
+              "evidence_found": "1 critical cross-document contradiction(s) detected.",
+              "explanation": "Extracted applicant credentials diverge across uploaded certificates.",
+              "remediation_instructions": "Upload Gazette notification, marriage certificate, or an affidavit explaining the name variation.",
+              "reviewed": false
+            }
+          ]
+        },
+        "risk_assessment": {
+          "application_id": "90bb1056-0124-4215-9ea5-55db571f35c3",
+          "priority_score": 55,
+          "priority_level": "high_concern",
+          "recommended_queue": "Standard Verification Officer Queue (Elevated Priority)",
+          "signals": [
+            {
+              "category": "cross_doc_contradiction",
+              "title": "Cross-Document Discrepancy Detected",
+              "weight": 35.0,
+              "contribution_points": 35,
+              "evidence": "1 critical field contradiction(s) between uploaded records.",
+              "explanation": "Information declared by applicant or extracted from primary ID differs significantly from supporting academic certificates."
+            },
+            {
+              "category": "missing_mandatory_doc",
+              "title": "Mandatory Evidence Absent: Mandatory Submission of Identity & Academic Records",
+              "weight": 20.0,
+              "contribution_points": 20,
+              "evidence": "Missing required documents: academic_certificate",
+              "explanation": "Application lacks required document type(s): academic_certificate."
+            }
+          ],
+          "deterministic_violations_count": 2,
+          "probabilistic_anomalies_count": 0,
+          "model_version": "v2.1-hybrid-explainable-weights",
+          "disclaimer": "This score indicates review urgency and routing priority. It is not an automated conclusion or legal probability of fraud."
+        }
+      },
+      "review_decision": {
+        "action": "request_evidence",
+        "reason": "Mandatory Academic Transcript or Degree certificate is missing.",
+        "notes": "Evidence request dispatched to applicant.",
+        "decided_at": "2026-10-20T09:53:53.321275"
+      },
+      "created_at": "2026-10-20T09:53:53.321573",
+      "updated_at": "2026-10-20T09:53:53.321587"
+    },
+    {
+      "_id": "4a8479a4-c2ee-4370-abbb-0074f56028be",
+      "reference_id": "APP-2026-MISMATCH-03",
+      "applicant_name": "Vikramaditya Roy",
+      "applicant_email": "v.roy@example.edu",
+      "applicant_phone": "+91 98765 43210",
+      "category": "admissions",
+      "organization_or_institution": "Postgraduate Central Admission",
+      "declared_details": {
+        "applicant_name": "Vikramaditya Roy",
+        "email": "v.roy@example.edu",
+        "category": "admissions"
+      },
+      "notes": "Scenario 3: Cross-Document Mismatch. Name and DOB contradict between Identity card and Degree.",
+      "status": "under_review",
+      "created_by": "user_demo_applicant",
+      "document_ids": [
+        "16bef8f4-d514-4a90-bee5-d888fbc4f0d4",
+        "4ee3eca5-52e5-46ff-8857-8b2ad4dee5da"
+      ],
+      "review_priority_score": 40,
+      "review_priority_level": "moderate_concern",
+      "verification_summary": {
+        "cross_document": {
+          "application_id": "4a8479a4-c2ee-4370-abbb-0074f56028be",
+          "total_checks": 4,
+          "passed_checks": 1,
+          "fuzzy_matches": 0,
+          "mismatches": 3,
+          "contradictions": 3,
+          "comparisons": [
+            {
+              "id": "7c08326e-ffeb-47d3-a625-383694d24bde",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Vikramaditya Roy",
+              "doc2_id": "16bef8f4-d514-4a90-bee5-d888fbc4f0d4",
+              "doc2_name": "Government_Identity_Card_(Aadhaar).pdf",
+              "doc2_type": "identity_document",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.2,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "03a09ffa-4096-4a4b-9d5a-f7439fa70c66",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Vikramaditya Roy",
+              "doc2_id": "4ee3eca5-52e5-46ff-8857-8b2ad4dee5da",
+              "doc2_name": "Degree_Certificate_of_Science.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.2,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "b4167dc2-b9d4-4ed0-a098-aa8c96780439",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Government_Identity_Card_(Aadhaar).pdf vs Degree_Certificate_of_Science.pdf)",
+              "doc1_id": "16bef8f4-d514-4a90-bee5-d888fbc4f0d4",
+              "doc1_name": "Government_Identity_Card_(Aadhaar).pdf",
+              "doc1_type": "identity_document",
+              "doc1_value": "Name",
+              "doc2_id": "4ee3eca5-52e5-46ff-8857-8b2ad4dee5da",
+              "doc2_name": "Degree_Certificate_of_Science.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "Name",
+              "match_status": "exact_match",
+              "similarity_score": 1.0,
+              "contradiction_flag": false,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Names agree between documents.",
+              "reviewed": false
+            },
+            {
+              "id": "039a0204-707a-44ad-88ea-a18a70b659c9",
+              "field_key": "dob_interdoc",
+              "display_name": "Date of Birth Contradiction",
+              "doc1_id": "16bef8f4-d514-4a90-bee5-d888fbc4f0d4",
+              "doc1_name": "Government_Identity_Card_(Aadhaar).pdf",
+              "doc1_type": "identity_document",
+              "doc1_value": "2002-05-18",
+              "doc2_id": "4ee3eca5-52e5-46ff-8857-8b2ad4dee5da",
+              "doc2_name": "Degree_Certificate_of_Science.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "2000-09-12",
+              "match_status": "mismatch",
+              "similarity_score": 0.0,
+              "contradiction_flag": true,
+              "evidence_reference": "Normalized ISO date verification",
+              "suggested_resolution": "DOB contradiction: '2002-05-18' in Government_Identity_Card_(Aadhaar).pdf vs '2000-09-12' in Degree_Certificate_of_Science.pdf. Request official birth certificate / matriculation record.",
+              "reviewed": false
+            }
+          ],
+          "overall_status": "severe_mismatch"
+        },
+        "compliance": {
+          "application_id": "4a8479a4-c2ee-4370-abbb-0074f56028be",
+          "total_rules": 3,
+          "compliant_count": 1,
+          "non_compliant_count": 1,
+          "missing_evidence_count": 0,
+          "manual_review_count": 0,
+          "overall_compliance_rate": 33.3,
+          "results": [
+            {
+              "rule_id": "AICTE-MANDATORY-DOCS",
+              "rule_name": "Mandatory Submission of Identity & Academic Records",
+              "status": "compliant",
+              "severity": "critical",
+              "policy_reference": {
+                "title": "AICTE Approval Process Handbook (Section 2.4 - Document Verification Norms)",
+                "authority": "All India Council for Technical Education (AICTE)",
+                "section_or_clause": "Clause 2.4.1 (Mandatory Scrutiny Requirements)",
+                "effective_date": "2024-04-01",
+                "source_url": "https://www.aicte-india.org/approval-process",
+                "excerpt": "Every candidate applying for scholarship or admission scrutiny must submit verified government identity proof along with qualifying degree/marksheet certificates."
+              },
+              "evidence_found": "All mandatory documents present: identity_document, academic_certificate",
+              "explanation": "All mandatory document categories have been uploaded and ingested.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "NAME-CONSISTENCY-CHECK",
+              "rule_name": "Cross-Document Legal Identity Consistency",
+              "status": "conflicting_evidence",
+              "severity": "high",
+              "policy_reference": {
+                "title": "General Standards for Academic Credentials Scrutiny",
+                "authority": "AICTE & UGC Academic Cell",
+                "section_or_clause": "Section 5 - Identity Reconcilement",
+                "effective_date": "2023-06-01",
+                "source_url": "https://www.ugc.gov.in/guidelines",
+                "excerpt": "The name of the applicant on all academic credentials must be reconcilable with the primary identity record. Discrepancies without gazette notification require administrative hold."
+              },
+              "evidence_found": "3 critical cross-document contradiction(s) detected.",
+              "explanation": "Extracted applicant credentials diverge across uploaded certificates.",
+              "remediation_instructions": "Upload Gazette notification, marriage certificate, or an affidavit explaining the name variation.",
+              "reviewed": false
+            },
+            {
+              "rule_id": "MINIMUM-QUALIFYING-PERCENTAGE",
+              "rule_name": "Minimum Qualifying Examination Percentage",
+              "status": "not_applicable",
+              "severity": "medium",
+              "policy_reference": {
+                "title": "AICTE Approval Process Handbook (Entry Qualification Standards)",
+                "authority": "AICTE Academic Board",
+                "section_or_clause": "Appendix 1 - Entry Level Percentages",
+                "effective_date": "2024-01-01",
+                "source_url": "https://www.aicte-india.org",
+                "excerpt": "Passed 10+2 examination with minimum 45% marks (40% for candidates belonging to reserved category) in the above subjects taken together."
+              },
+              "evidence_found": "Field marks_percentage not present in extracted records.",
+              "explanation": "Threshold evaluation not applicable.",
+              "remediation_instructions": null,
+              "reviewed": true
+            }
+          ]
+        },
+        "risk_assessment": {
+          "application_id": "4a8479a4-c2ee-4370-abbb-0074f56028be",
+          "priority_score": 40,
+          "priority_level": "moderate_concern",
+          "recommended_queue": "Standard Verification Officer Queue",
+          "signals": [
+            {
+              "category": "cross_doc_contradiction",
+              "title": "Cross-Document Discrepancy Detected",
+              "weight": 35.0,
+              "contribution_points": 40,
+              "evidence": "3 critical field contradiction(s) between uploaded records.",
+              "explanation": "Information declared by applicant or extracted from primary ID differs significantly from supporting academic certificates."
+            }
+          ],
+          "deterministic_violations_count": 3,
+          "probabilistic_anomalies_count": 0,
+          "model_version": "v2.1-hybrid-explainable-weights",
+          "disclaimer": "This score indicates review urgency and routing priority. It is not an automated conclusion or legal probability of fraud."
+        }
+      },
+      "review_decision": null,
+      "created_at": "2026-10-20T09:53:53.968052",
+      "updated_at": "2026-10-20T09:53:53.968079"
+    },
+    {
+      "_id": "907c1427-fdd4-4d91-888e-333f55a437ad",
+      "reference_id": "APP-2026-EXPIRED-04",
+      "applicant_name": "Ananya Sen",
+      "applicant_email": "ananya.sen@example.edu",
+      "applicant_phone": "+91 98765 43210",
+      "category": "scholarship",
+      "organization_or_institution": "State Post-Matric Scholarship",
+      "declared_details": {
+        "applicant_name": "Ananya Sen",
+        "email": "ananya.sen@example.edu",
+        "category": "scholarship"
+      },
+      "notes": "Scenario 4: Expired Document. Income certificate validity expired on 2023-03-31.",
+      "status": "under_review",
+      "created_by": "user_demo_applicant",
+      "document_ids": [
+        "6629bf39-87e9-435d-8eac-d00851c07c24",
+        "cfb8568d-90e5-4911-ae87-2da68ad305b5",
+        "afbcc4f3-ba8c-4696-817a-4bc0dd929550"
+      ],
+      "review_priority_score": 65,
+      "review_priority_level": "high_concern",
+      "verification_summary": {
+        "cross_document": {
+          "application_id": "907c1427-fdd4-4d91-888e-333f55a437ad",
+          "total_checks": 6,
+          "passed_checks": 1,
+          "fuzzy_matches": 0,
+          "mismatches": 5,
+          "contradictions": 5,
+          "comparisons": [
+            {
+              "id": "adf0bf58-47aa-4a9a-aa9a-4da49fd14c76",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Ananya Sen",
+              "doc2_id": "6629bf39-87e9-435d-8eac-d00851c07c24",
+              "doc2_name": "Government_Identity_Card.pdf",
+              "doc2_type": "identity_document",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.43,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "64f29009-3b8b-409d-9b2f-84667cb40c44",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Ananya Sen",
+              "doc2_id": "cfb8568d-90e5-4911-ae87-2da68ad305b5",
+              "doc2_name": "Senior_School_Certificate_Examination.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.43,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "47b76d7a-2641-4c55-99ad-86f92a03c579",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Ananya Sen",
+              "doc2_id": "afbcc4f3-ba8c-4696-817a-4bc0dd929550",
+              "doc2_name": "Annual_Family_Income_Certificate.pdf",
+              "doc2_type": "income_certificate",
+              "doc2_value": "Ananya Sen\nAnnual Family Income",
+              "match_status": "mismatch",
+              "similarity_score": 0.49,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "fc6453e7-237e-45fa-b814-a0521f7b1c65",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Government_Identity_Card.pdf vs Senior_School_Certificate_Examination.pdf)",
+              "doc1_id": "6629bf39-87e9-435d-8eac-d00851c07c24",
+              "doc1_name": "Government_Identity_Card.pdf",
+              "doc1_type": "identity_document",
+              "doc1_value": "Name",
+              "doc2_id": "cfb8568d-90e5-4911-ae87-2da68ad305b5",
+              "doc2_name": "Senior_School_Certificate_Examination.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "Name",
+              "match_status": "exact_match",
+              "similarity_score": 1.0,
+              "contradiction_flag": false,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Names agree between documents.",
+              "reviewed": false
+            },
+            {
+              "id": "8bdfc68c-e454-406d-86a4-fa1d0c69d891",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Government_Identity_Card.pdf vs Annual_Family_Income_Certificate.pdf)",
+              "doc1_id": "6629bf39-87e9-435d-8eac-d00851c07c24",
+              "doc1_name": "Government_Identity_Card.pdf",
+              "doc1_type": "identity_document",
+              "doc1_value": "Name",
+              "doc2_id": "afbcc4f3-ba8c-4696-817a-4bc0dd929550",
+              "doc2_name": "Annual_Family_Income_Certificate.pdf",
+              "doc2_type": "income_certificate",
+              "doc2_value": "Ananya Sen\nAnnual Family Income",
+              "match_status": "mismatch",
+              "similarity_score": 0.23,
+              "contradiction_flag": true,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Mismatch: 'Name' in Government_Identity_Card.pdf vs 'Ananya Sen\nAnnual Family Income' in Annual_Family_Income_Certificate.pdf. Request clarifying identity affidavit.",
+              "reviewed": false
+            },
+            {
+              "id": "a9baac02-9a26-4ab6-88cb-ed2305898f65",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Senior_School_Certificate_Examination.pdf vs Annual_Family_Income_Certificate.pdf)",
+              "doc1_id": "cfb8568d-90e5-4911-ae87-2da68ad305b5",
+              "doc1_name": "Senior_School_Certificate_Examination.pdf",
+              "doc1_type": "academic_certificate",
+              "doc1_value": "Name",
+              "doc2_id": "afbcc4f3-ba8c-4696-817a-4bc0dd929550",
+              "doc2_name": "Annual_Family_Income_Certificate.pdf",
+              "doc2_type": "income_certificate",
+              "doc2_value": "Ananya Sen\nAnnual Family Income",
+              "match_status": "mismatch",
+              "similarity_score": 0.23,
+              "contradiction_flag": true,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Mismatch: 'Name' in Senior_School_Certificate_Examination.pdf vs 'Ananya Sen\nAnnual Family Income' in Annual_Family_Income_Certificate.pdf. Request clarifying identity affidavit.",
+              "reviewed": false
+            }
+          ],
+          "overall_status": "severe_mismatch"
+        },
+        "compliance": {
+          "application_id": "907c1427-fdd4-4d91-888e-333f55a437ad",
+          "total_rules": 4,
+          "compliant_count": 1,
+          "non_compliant_count": 2,
+          "missing_evidence_count": 0,
+          "manual_review_count": 0,
+          "overall_compliance_rate": 25.0,
+          "results": [
+            {
+              "rule_id": "AICTE-MANDATORY-DOCS",
+              "rule_name": "Mandatory Submission of Identity & Academic Records",
+              "status": "compliant",
+              "severity": "critical",
+              "policy_reference": {
+                "title": "AICTE Approval Process Handbook (Section 2.4 - Document Verification Norms)",
+                "authority": "All India Council for Technical Education (AICTE)",
+                "section_or_clause": "Clause 2.4.1 (Mandatory Scrutiny Requirements)",
+                "effective_date": "2024-04-01",
+                "source_url": "https://www.aicte-india.org/approval-process",
+                "excerpt": "Every candidate applying for scholarship or admission scrutiny must submit verified government identity proof along with qualifying degree/marksheet certificates."
+              },
+              "evidence_found": "All mandatory documents present: identity_document, academic_certificate",
+              "explanation": "All mandatory document categories have been uploaded and ingested.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "INCOME-VALIDITY-PERIOD",
+              "rule_name": "Income Certificate Current Financial Year Validity",
+              "status": "non_compliant",
+              "severity": "high",
+              "policy_reference": {
+                "title": "National Scholarship Portal (NSP) Operational Guidelines",
+                "authority": "Ministry of Electronics and Information Technology (MeitY)",
+                "section_or_clause": "Section 4(b) - Income Eligibility Criteria",
+                "effective_date": "2023-08-15",
+                "source_url": "https://scholarships.gov.in/guidelines",
+                "excerpt": "Income certificates submitted for fee waiver or scholarship must be issued within the valid financial year and cannot be expired at the time of application submission."
+              },
+              "evidence_found": "Expiry Date: 2023-03-31 is in the past.",
+              "explanation": "Document validity period has expired prior to submission.",
+              "remediation_instructions": "Submit a renewed income certificate issued by a competent Revenue Authority (Tehsildar / SDO).",
+              "reviewed": false
+            },
+            {
+              "rule_id": "INCOME-THRESHOLD-CEILING",
+              "rule_name": "Family Annual Income Ceiling Compliance",
+              "status": "not_applicable",
+              "severity": "high",
+              "policy_reference": {
+                "title": "AICTE Pragati & Saksham Scholarship Guidelines",
+                "authority": "AICTE Welfare Bureau",
+                "section_or_clause": "Clause 3.1 - Income Ceiling",
+                "effective_date": "2023-01-01",
+                "source_url": "https://www.aicte-india.org/schemes/students-development-schemes",
+                "excerpt": "Total family annual income from all sources should not exceed INR 8,00,000/- per annum for the grant of scholarship."
+              },
+              "evidence_found": "Field annual_income not present in extracted records.",
+              "explanation": "Threshold evaluation not applicable.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "NAME-CONSISTENCY-CHECK",
+              "rule_name": "Cross-Document Legal Identity Consistency",
+              "status": "conflicting_evidence",
+              "severity": "high",
+              "policy_reference": {
+                "title": "General Standards for Academic Credentials Scrutiny",
+                "authority": "AICTE & UGC Academic Cell",
+                "section_or_clause": "Section 5 - Identity Reconcilement",
+                "effective_date": "2023-06-01",
+                "source_url": "https://www.ugc.gov.in/guidelines",
+                "excerpt": "The name of the applicant on all academic credentials must be reconcilable with the primary identity record. Discrepancies without gazette notification require administrative hold."
+              },
+              "evidence_found": "5 critical cross-document contradiction(s) detected.",
+              "explanation": "Extracted applicant credentials diverge across uploaded certificates.",
+              "remediation_instructions": "Upload Gazette notification, marriage certificate, or an affidavit explaining the name variation.",
+              "reviewed": false
+            }
+          ]
+        },
+        "risk_assessment": {
+          "application_id": "907c1427-fdd4-4d91-888e-333f55a437ad",
+          "priority_score": 65,
+          "priority_level": "high_concern",
+          "recommended_queue": "Standard Verification Officer Queue (Elevated Priority)",
+          "signals": [
+            {
+              "category": "cross_doc_contradiction",
+              "title": "Cross-Document Discrepancy Detected",
+              "weight": 35.0,
+              "contribution_points": 40,
+              "evidence": "5 critical field contradiction(s) between uploaded records.",
+              "explanation": "Information declared by applicant or extracted from primary ID differs significantly from supporting academic certificates."
+            },
+            {
+              "category": "regulatory_rule_violation",
+              "title": "Breach of Rule: Income Certificate Current Financial Year Validity",
+              "weight": 25.0,
+              "contribution_points": 25,
+              "evidence": "Expiry Date: 2023-03-31 is in the past.",
+              "explanation": "Document validity period has expired prior to submission."
+            }
+          ],
+          "deterministic_violations_count": 6,
+          "probabilistic_anomalies_count": 0,
+          "model_version": "v2.1-hybrid-explainable-weights",
+          "disclaimer": "This score indicates review urgency and routing priority. It is not an automated conclusion or legal probability of fraud."
+        }
+      },
+      "review_decision": null,
+      "created_at": "2026-10-20T09:53:54.955753",
+      "updated_at": "2026-10-20T09:53:54.955789"
+    },
+    {
+      "_id": "6bcffc26-b89b-488e-9861-7586d6f202b8",
+      "reference_id": "APP-2026-SUSPICIOUS-05",
+      "applicant_name": "Kabir Mehta",
+      "applicant_email": "kabir.m@example.edu",
+      "applicant_phone": "+91 98765 43210",
+      "category": "recruitment",
+      "organization_or_institution": "Faculty Technical Recruitment",
+      "declared_details": {
+        "applicant_name": "Kabir Mehta",
+        "email": "kabir.m@example.edu",
+        "category": "recruitment"
+      },
+      "notes": "Scenario 5: Suspicious Document. Metadata exposes Canva/Photoshop tool modification and altered marks.",
+      "status": "under_review",
+      "created_by": "user_demo_applicant",
+      "document_ids": [
+        "0f4796c8-b7ae-4868-825b-ef67f657bce9",
+        "01d49c3a-7280-4209-9f1d-a53d748b43d3"
+      ],
+      "review_priority_score": 40,
+      "review_priority_level": "moderate_concern",
+      "verification_summary": {
+        "cross_document": {
+          "application_id": "6bcffc26-b89b-488e-9861-7586d6f202b8",
+          "total_checks": 3,
+          "passed_checks": 1,
+          "fuzzy_matches": 0,
+          "mismatches": 2,
+          "contradictions": 2,
+          "comparisons": [
+            {
+              "id": "ec2e9f59-3b06-4f22-8b11-e5505ca462e2",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Kabir Mehta",
+              "doc2_id": "0f4796c8-b7ae-4868-825b-ef67f657bce9",
+              "doc2_name": "Government_Identity_Card.pdf",
+              "doc2_type": "identity_document",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.4,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "3a09f792-5f6c-4433-8516-dc6414d0d6ae",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Kabir Mehta",
+              "doc2_id": "01d49c3a-7280-4209-9f1d-a53d748b43d3",
+              "doc2_name": "Master_of_Technology_Certificate.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.4,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "6fe7946f-7db8-4b7b-9f93-cc6f27b40772",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Government_Identity_Card.pdf vs Master_of_Technology_Certificate.pdf)",
+              "doc1_id": "0f4796c8-b7ae-4868-825b-ef67f657bce9",
+              "doc1_name": "Government_Identity_Card.pdf",
+              "doc1_type": "identity_document",
+              "doc1_value": "Name",
+              "doc2_id": "01d49c3a-7280-4209-9f1d-a53d748b43d3",
+              "doc2_name": "Master_of_Technology_Certificate.pdf",
+              "doc2_type": "academic_certificate",
+              "doc2_value": "Name",
+              "match_status": "exact_match",
+              "similarity_score": 1.0,
+              "contradiction_flag": false,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Names agree between documents.",
+              "reviewed": false
+            }
+          ],
+          "overall_status": "severe_mismatch"
+        },
+        "compliance": {
+          "application_id": "6bcffc26-b89b-488e-9861-7586d6f202b8",
+          "total_rules": 2,
+          "compliant_count": 1,
+          "non_compliant_count": 1,
+          "missing_evidence_count": 0,
+          "manual_review_count": 0,
+          "overall_compliance_rate": 50.0,
+          "results": [
+            {
+              "rule_id": "AICTE-MANDATORY-DOCS",
+              "rule_name": "Mandatory Submission of Identity & Academic Records",
+              "status": "compliant",
+              "severity": "critical",
+              "policy_reference": {
+                "title": "AICTE Approval Process Handbook (Section 2.4 - Document Verification Norms)",
+                "authority": "All India Council for Technical Education (AICTE)",
+                "section_or_clause": "Clause 2.4.1 (Mandatory Scrutiny Requirements)",
+                "effective_date": "2024-04-01",
+                "source_url": "https://www.aicte-india.org/approval-process",
+                "excerpt": "Every candidate applying for scholarship or admission scrutiny must submit verified government identity proof along with qualifying degree/marksheet certificates."
+              },
+              "evidence_found": "All mandatory documents present: identity_document, academic_certificate",
+              "explanation": "All mandatory document categories have been uploaded and ingested.",
+              "remediation_instructions": null,
+              "reviewed": true
+            },
+            {
+              "rule_id": "NAME-CONSISTENCY-CHECK",
+              "rule_name": "Cross-Document Legal Identity Consistency",
+              "status": "conflicting_evidence",
+              "severity": "high",
+              "policy_reference": {
+                "title": "General Standards for Academic Credentials Scrutiny",
+                "authority": "AICTE & UGC Academic Cell",
+                "section_or_clause": "Section 5 - Identity Reconcilement",
+                "effective_date": "2023-06-01",
+                "source_url": "https://www.ugc.gov.in/guidelines",
+                "excerpt": "The name of the applicant on all academic credentials must be reconcilable with the primary identity record. Discrepancies without gazette notification require administrative hold."
+              },
+              "evidence_found": "2 critical cross-document contradiction(s) detected.",
+              "explanation": "Extracted applicant credentials diverge across uploaded certificates.",
+              "remediation_instructions": "Upload Gazette notification, marriage certificate, or an affidavit explaining the name variation.",
+              "reviewed": false
+            }
+          ]
+        },
+        "risk_assessment": {
+          "application_id": "6bcffc26-b89b-488e-9861-7586d6f202b8",
+          "priority_score": 40,
+          "priority_level": "moderate_concern",
+          "recommended_queue": "Standard Verification Officer Queue",
+          "signals": [
+            {
+              "category": "cross_doc_contradiction",
+              "title": "Cross-Document Discrepancy Detected",
+              "weight": 35.0,
+              "contribution_points": 40,
+              "evidence": "2 critical field contradiction(s) between uploaded records.",
+              "explanation": "Information declared by applicant or extracted from primary ID differs significantly from supporting academic certificates."
+            }
+          ],
+          "deterministic_violations_count": 2,
+          "probabilistic_anomalies_count": 0,
+          "model_version": "v2.1-hybrid-explainable-weights",
+          "disclaimer": "This score indicates review urgency and routing priority. It is not an automated conclusion or legal probability of fraud."
+        }
+      },
+      "review_decision": null,
+      "created_at": "2026-10-20T09:53:55.602730",
+      "updated_at": "2026-10-20T09:53:55.602773"
+    },
+    {
+      "_id": "d3ffa946-f001-4a15-8b0a-a81e9032bf5c",
+      "reference_id": "APP-2026-UNAVAILABLE-06",
+      "applicant_name": "Fatima Zahra",
+      "applicant_email": "fatima.z@example.edu",
+      "applicant_phone": "+91 98765 43210",
+      "category": "regulatory_licensing",
+      "organization_or_institution": "Technical Professional Council",
+      "declared_details": {
+        "applicant_name": "Fatima Zahra",
+        "email": "fatima.z@example.edu",
+        "category": "regulatory_licensing"
+      },
+      "notes": "Scenario 6: External Verification Unavailable. External authority API timed out; handles gracefully.",
+      "status": "under_review",
+      "created_by": "user_demo_applicant",
+      "document_ids": [
+        "53e20c08-f63a-46c7-91c9-5d7a1810d162",
+        "a64577e9-ccae-4da6-808c-23c3574ab571"
+      ],
+      "review_priority_score": 60,
+      "review_priority_level": "high_concern",
+      "verification_summary": {
+        "cross_document": {
+          "application_id": "d3ffa946-f001-4a15-8b0a-a81e9032bf5c",
+          "total_checks": 3,
+          "passed_checks": 1,
+          "fuzzy_matches": 0,
+          "mismatches": 2,
+          "contradictions": 2,
+          "comparisons": [
+            {
+              "id": "9702eb03-1227-476f-84eb-4cc2e4961ccb",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Fatima Zahra",
+              "doc2_id": "53e20c08-f63a-46c7-91c9-5d7a1810d162",
+              "doc2_name": "Government_Identity_Card.pdf",
+              "doc2_type": "identity_document",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.25,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "c75d9090-f118-4b68-b244-59ef93b7064a",
+              "field_key": "applicant_name",
+              "display_name": "Applicant Full Name",
+              "doc1_id": "declared_application",
+              "doc1_name": "Application Form (Declared)",
+              "doc1_type": "application_record",
+              "doc1_value": "Fatima Zahra",
+              "doc2_id": "a64577e9-ccae-4da6-808c-23c3574ab571",
+              "doc2_name": "State_Council_Professional_License.pdf",
+              "doc2_type": "registration_certificate",
+              "doc2_value": "Name",
+              "match_status": "mismatch",
+              "similarity_score": 0.25,
+              "contradiction_flag": true,
+              "evidence_reference": "Page 1 entity extraction",
+              "suggested_resolution": "Significant name divergence detected. Check for identity impersonation or legal name change deed.",
+              "reviewed": false
+            },
+            {
+              "id": "79dd3d00-98ad-4417-b8a9-e443a82fe9dd",
+              "field_key": "applicant_name_interdoc",
+              "display_name": "Applicant Name (Government_Identity_Card.pdf vs State_Council_Professional_License.pdf)",
+              "doc1_id": "53e20c08-f63a-46c7-91c9-5d7a1810d162",
+              "doc1_name": "Government_Identity_Card.pdf",
+              "doc1_type": "identity_document",
+              "doc1_value": "Name",
+              "doc2_id": "a64577e9-ccae-4da6-808c-23c3574ab571",
+              "doc2_name": "State_Council_Professional_License.pdf",
+              "doc2_type": "registration_certificate",
+              "doc2_value": "Name",
+              "match_status": "exact_match",
+              "similarity_score": 1.0,
+              "contradiction_flag": false,
+              "evidence_reference": "Cross-document OCR entity matching",
+              "suggested_resolution": "Names agree between documents.",
+              "reviewed": false
+            }
+          ],
+          "overall_status": "severe_mismatch"
+        },
+        "compliance": {
+          "application_id": "d3ffa946-f001-4a15-8b0a-a81e9032bf5c",
+          "total_rules": 2,
+          "compliant_count": 0,
+          "non_compliant_count": 1,
+          "missing_evidence_count": 1,
+          "manual_review_count": 0,
+          "overall_compliance_rate": 0.0,
+          "results": [
+            {
+              "rule_id": "AICTE-MANDATORY-DOCS",
+              "rule_name": "Mandatory Submission of Identity & Academic Records",
+              "status": "missing_evidence",
+              "severity": "critical",
+              "policy_reference": {
+                "title": "AICTE Approval Process Handbook (Section 2.4 - Document Verification Norms)",
+                "authority": "All India Council for Technical Education (AICTE)",
+                "section_or_clause": "Clause 2.4.1 (Mandatory Scrutiny Requirements)",
+                "effective_date": "2024-04-01",
+                "source_url": "https://www.aicte-india.org/approval-process",
+                "excerpt": "Every candidate applying for scholarship or admission scrutiny must submit verified government identity proof along with qualifying degree/marksheet certificates."
+              },
+              "evidence_found": "Missing required documents: academic_certificate",
+              "explanation": "Application lacks required document type(s): academic_certificate.",
+              "remediation_instructions": "Upload the missing mandatory document (Aadhaar/Identity card or Academic transcript).",
+              "reviewed": false
+            },
+            {
+              "rule_id": "NAME-CONSISTENCY-CHECK",
+              "rule_name": "Cross-Document Legal Identity Consistency",
+              "status": "conflicting_evidence",
+              "severity": "high",
+              "policy_reference": {
+                "title": "General Standards for Academic Credentials Scrutiny",
+                "authority": "AICTE & UGC Academic Cell",
+                "section_or_clause": "Section 5 - Identity Reconcilement",
+                "effective_date": "2023-06-01",
+                "source_url": "https://www.ugc.gov.in/guidelines",
+                "excerpt": "The name of the applicant on all academic credentials must be reconcilable with the primary identity record. Discrepancies without gazette notification require administrative hold."
+              },
+              "evidence_found": "2 critical cross-document contradiction(s) detected.",
+              "explanation": "Extracted applicant credentials diverge across uploaded certificates.",
+              "remediation_instructions": "Upload Gazette notification, marriage certificate, or an affidavit explaining the name variation.",
+              "reviewed": false
+            }
+          ]
+        },
+        "risk_assessment": {
+          "application_id": "d3ffa946-f001-4a15-8b0a-a81e9032bf5c",
+          "priority_score": 60,
+          "priority_level": "high_concern",
+          "recommended_queue": "Standard Verification Officer Queue (Elevated Priority)",
+          "signals": [
+            {
+              "category": "cross_doc_contradiction",
+              "title": "Cross-Document Discrepancy Detected",
+              "weight": 35.0,
+              "contribution_points": 40,
+              "evidence": "2 critical field contradiction(s) between uploaded records.",
+              "explanation": "Information declared by applicant or extracted from primary ID differs significantly from supporting academic certificates."
+            },
+            {
+              "category": "missing_mandatory_doc",
+              "title": "Mandatory Evidence Absent: Mandatory Submission of Identity & Academic Records",
+              "weight": 20.0,
+              "contribution_points": 20,
+              "evidence": "Missing required documents: academic_certificate",
+              "explanation": "Application lacks required document type(s): academic_certificate."
+            }
+          ],
+          "deterministic_violations_count": 3,
+          "probabilistic_anomalies_count": 0,
+          "model_version": "v2.1-hybrid-explainable-weights",
+          "disclaimer": "This score indicates review urgency and routing priority. It is not an automated conclusion or legal probability of fraud."
+        }
+      },
+      "review_decision": null,
+      "created_at": "2026-10-20T09:53:56.262494",
+      "updated_at": "2026-10-20T09:53:56.262511"
+    }
+  ]
+}
